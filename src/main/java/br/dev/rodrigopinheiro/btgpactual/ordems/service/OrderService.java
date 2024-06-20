@@ -37,7 +37,7 @@ public class OrderService {
         orderRepository.save(entity);
     }
 
-    public Page<OrderResponse> findAllByCystomerId(Long customerId, PageRequest pageRequest) {
+    public Page<OrderResponse> findAllByCustomerId(Long customerId, PageRequest pageRequest) {
         var orders = orderRepository.findAllByCustomerId(customerId, pageRequest);
 
         return  orders.map(OrderResponse::fromEntity);
@@ -46,13 +46,13 @@ public class OrderService {
 
     public BigDecimal findTotalOnOrdersByCustomerId(Long customerId) {
         var aggregations = newAggregation(
-                match(Criteria.where("customerId")),
+                match(Criteria.where("customerId").is(customerId)),
                 group().sum("total").as("total")
         );
 
         var response = mongoTemplate.aggregate(aggregations, "tb_orders", Document.class);
 
-        return new BigDecimal(response.getUniqueMappedResult().get("total").toString());
+        return new BigDecimal(response.getUniqueMappedResult().getOrDefault("total", BigDecimal.ZERO).toString());
     }
 
     private BigDecimal getTotal(OrderCreatedEvent event) {

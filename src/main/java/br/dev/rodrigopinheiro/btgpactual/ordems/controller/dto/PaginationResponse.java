@@ -4,7 +4,7 @@ import org.springframework.data.domain.Page;
 
 public record PaginationResponse(
         Integer page,
-        Integer pagesize,
+        Integer pageSize,
         Long totalElements,
         Integer totalPages
 ) {
