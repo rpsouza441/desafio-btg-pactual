@@ -11,10 +11,10 @@ import java.util.List;
 
 
 @Document(collection = "tb_orders")
-public class Order {
+public class OrderEntity {
 
     @MongoId
-    private Long order;
+    private Long orderId;
 
     @Indexed(name = "customer_id_index")
     private Long customerId;
@@ -25,15 +25,15 @@ public class Order {
     List<OrderItem> orderItems;
 
 
-    public Order() {
+    public OrderEntity() {
     }
 
-    public Long getOrder() {
-        return order;
+    public Long getOrderId() {
+        return orderId;
     }
 
-    public void setOrder(Long order) {
-        this.order = order;
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 
     public Long getCustomerId() {
